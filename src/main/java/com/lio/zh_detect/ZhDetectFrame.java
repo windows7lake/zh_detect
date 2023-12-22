@@ -4,7 +4,10 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class ZhDetectFrame extends JFrame {
@@ -16,6 +19,8 @@ public class ZhDetectFrame extends JFrame {
     private JButton detect;
 
     private DefaultTableModel tableModel;
+
+    private List<ZhResult> resultList = new ArrayList<>();
 
     public ZhDetectFrame() {
         setContentPane(panel);
@@ -68,6 +73,7 @@ public class ZhDetectFrame extends JFrame {
         }
         File destinyDirectory = new File(directory.getPath());
         operateDirectory(destinyDirectory);
+        showResult(resultList);
     }
 
     private List<String> inWhiteList(String path) {
@@ -77,7 +83,14 @@ public class ZhDetectFrame extends JFrame {
         for (Object[] filePath : whiteList) {
             String fileName = (String) filePath[0];
             String lineNumber = (String) filePath[1];
-            lineList = Arrays.stream(lineNumber.split(",")).toList();
+            if (fileName.isEmpty() && lineNumber.isEmpty()) {
+                continue;
+            }
+            if (lineNumber.isEmpty()) {
+                lineList = new ArrayList<>();
+            } else {
+                lineList = Arrays.stream(lineNumber.split(",")).toList();
+            }
             if (path.contains(fileName)) {
                 if (lineList.isEmpty()) {
                     lineList.add("0");
@@ -101,12 +114,13 @@ public class ZhDetectFrame extends JFrame {
 
     private void operateFile(File file) {
         List<String> lineList = inWhiteList(file.getPath());
+        // 没有填写行数的文件，则直接过滤
         if (lineList.size() == 1 && Objects.equals(lineList.get(0), "0")) {
+            System.out.println(file.getPath() + "  return " + lineList.size() + "--" + lineList.get(0));
             return;
         }
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            List<ZhResult> resultList = new ArrayList<>();
             int lineCount = 0;
             String line;
             while ((line = reader.readLine()) != null) {
@@ -127,8 +141,8 @@ public class ZhDetectFrame extends JFrame {
                     }
                 });
             }
-            showResult(resultList);
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
