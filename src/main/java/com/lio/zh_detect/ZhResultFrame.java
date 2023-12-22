@@ -59,7 +59,7 @@ public class ZhResultFrame extends JFrame {
         if (option == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             String filePath = file.getPath();
-            String fileName = "繁体检测.xlsx";
+            String fileName = "繁体检测.xls";
             ExcelTool.export(filePath, fileName, columnName, resultList);
             dispose();
         }
