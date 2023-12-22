@@ -10,8 +10,11 @@
 5.点击“简体中文检测”，进入结果页，会显示扫描出的简体字，及其对应的文件和行数，以及正确的繁体字；<br>
 6.点击“生成文件”，可将结果导出为Excel文件。<br>
 
-操作视频：
+操作视频：<br>
 ![操作视频](https://raw.githubusercontent.com/windows7lake/zh_detect/main/image/%E6%93%8D%E4%BD%9C%E8%AF%B4%E6%98%8E.gif)
 
-导出文件：
+导出文件：<br>
 ![导出文件](https://raw.githubusercontent.com/windows7lake/zh_detect/main/image/%E5%AF%BC%E5%87%BA%E6%96%87%E4%BB%B6.png)
+
+Release:<br>
+[1.0.0](https://github.com/windows7lake/zh_detect/files/13748002/zh_detect-1.0.0.zip)
